@@ -20,10 +20,10 @@ cat << 'EOF' | sudo tee /etc/update-motd.d/99-custom > /dev/null
 echo
 clear
 neofetch
-figlet -f slant "Praneet Sadaruvan"
-figlet -f slant "CLOUD c☁️"
+figlet -f slant "Praneeth Sadaruvan"
+figlet -f slant "CLOUD "
 echo
-echo "🌐 Website: https://t.me/ps_ehi_store"
+echo "📲 Telegrame: https://t.me/ps_ehi_store"
 echo
 EOF
 
