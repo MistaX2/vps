@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Author: MistaX
+# Description: Disable default MOTD and replace with custom banner + neofetch
+
+echo "[*] Disabling all default MOTD scripts..."
+sudo chmod -x /etc/update-motd.d/*
+
+echo "[*] Disabling motd-news service..."
+sudo systemctl disable motd-news.timer --now
+sudo systemctl mask motd-news.timer
+
+echo "[*] Installing figlet and neofetch..."
+sudo apt update -y
+sudo apt install -y figlet neofetch
+
+echo "[*] Creating custom MOTD script..."
+cat << 'EOF' | sudo tee /etc/update-motd.d/99-custom > /dev/null
+#!/bin/bash
+echo
+clear
+neofetch
+figlet -f slant "Praneet Sadaruvan"
+figlet -f slant "CLOUD c☁️"
+echo
+echo "🌐 Website: https://t.me/ps_ehi_store"
+echo
+EOF
+
+sudo chmod +x /etc/update-motd.d/99-custom
+
+echo "[*] Restoring MOTD PAM configuration"
+# Remove any lines that comment out pam_motd.so and restore them cleanly
+sudo sed -i '/pam_motd\.so/d' /etc/pam.d/sshd
+
+# Add the correct lines
+echo "session    optional     pam_motd.so motd=/run/motd.dynamic" | sudo tee -a /etc/pam.d/sshd > /dev/null
+echo "session    optional     pam_motd.so noupdate" | sudo tee -a /etc/pam.d/sshd > /dev/null
+
+echo "[*] Restarting SSH service..."
+sudo systemctl restart ssh
+
+echo "[✔] Custom MOTD installed successfully!"
+echo "→ Test by logging in or running: run-parts /etc/update-motd.d/"
+sudo reboot
