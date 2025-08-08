@@ -17,6 +17,7 @@ sudo apt install -y figlet neofetch
 echo "[*] Creating custom MOTD script..."
 cat << 'EOF' | sudo tee /etc/update-motd.d/99-custom > /dev/null
 #!/bin/bash
+echo
 clear
 neofetch
 figlet -f slant "Mr-X-2.0"
