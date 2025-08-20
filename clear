@@ -1,0 +1,14 @@
+#!/bin/bash
+# Clean VPS shell history (but keep history enabled)
+
+echo "[*] Clearing current session history..."
+history -c 2>/dev/null
+
+echo "[*] Removing saved history files..."
+rm -f ~/.bash_history ~/.zsh_history 2>/dev/null
+
+echo "[*] Starting fresh empty history..."
+touch ~/.bash_history
+touch ~/.zsh_history
+
+echo "[+] Done! Your history is now clean."
