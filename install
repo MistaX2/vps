@@ -20,7 +20,15 @@ cat << 'EOF' | sudo tee /etc/update-motd.d/99-custom > /dev/null
 echo
 clear
 neofetch
-figlet -f slant "Mr-X-2.0"
+echo -e "\e[1;32m$(figlet -f slant 'Mr-X-2.0')\e[0m"
+Show IP Address
+echo
+echo -e "\e[36m🖧 IP Address: $(hostname -I | awk '{print $1}')\e[0m"
+echo
+# Show Disk Usage
+echo -e "\e[31m💾 Disk Usage:\e[0m"
+echo
+df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs
 echo
 echo "🌐 Website: https://mistax2.github.io/webtask.github.io/"
 echo
