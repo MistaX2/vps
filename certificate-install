@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# ================================
+# CONFIGURATION
+# ================================
+DOMAIN="mrx.test.com"    # Change to your domain
+EMAIL="you@gmail.com"       # Your email
+CERT_DIR="/root/cert/$DOMAIN"   # Where your panel expects certs
+ACME="$HOME/.acme.sh/acme.sh"
+
+echo "==============================================="
+echo "     AUTO SSL INSTALLER (Standalone Mode)"
+echo "     Domain: $DOMAIN"
+echo "     Email : $EMAIL"
+echo "==============================================="
+
+# 1. Install dependencies
+echo "[INF] Installing curl and socat..."
+apt update
+apt install curl socat -y
+
+# 2. Install acme.sh
+echo "[INF] Installing acme.sh..."
+curl https://get.acme.sh | sh
+source ~/.bashrc
+
+# 3. Set Let's Encrypt as default CA
+echo "[INF] Setting Let's Encrypt as default CA..."
+$ACME --set-default-ca --server letsencrypt
+
+# 4. Register account
+echo "[INF] Registering acme.sh account..."
+$ACME --register-account -m "$EMAIL"
+
+# 5. Ensure port 80 is free (needed for standalone)
+echo "[INF] Checking port 80..."
+if ss -tulpn | grep -q ":80"; then
+    echo "[INF] Port 80 is in use. Please free it and rerun."
+    exit 1
+fi
+
+# 6. Remove old certificate directory if exists
+echo "[INF] Cleaning old certificate directory..."
+rm -rf "$HOME/.acme.sh/${DOMAIN}_ecc"
+
+# 7. Issue SSL certificate (standalone)
+echo "[INF] Issuing SSL certificate..."
+$ACME --issue -d "$DOMAIN" --standalone --force
+
+# 8. Create certificate directory for panel
+mkdir -p "$CERT_DIR"
+
+# 9. Install certificate to panel directory
+echo "[INF] Installing certificate to $CERT_DIR..."
+$ACME --install-cert -d "$DOMAIN" \
+    --key-file       "$CERT_DIR/privkey.pem" \
+    --fullchain-file "$CERT_DIR/fullchain.pem"
+
+echo "==============================================="
+echo "[SUCCESS] SSL installed for $DOMAIN"
+echo "Public Key (fullchain): $CERT_DIR/fullchain.pem"
+echo "Private Key: $CERT_DIR/privkey.pem"
+echo "Use these paths in your panel configuration."
+echo "==============================================="
