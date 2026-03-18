@@ -28,8 +28,8 @@ It simplifies server deployment with a single command.
 ## 🖥 Supported Systems
 
 * Ubuntu 20.04+
-* Debian 11+
-* (Other Debian-based systems may work)
+
+
 
 ---
 
