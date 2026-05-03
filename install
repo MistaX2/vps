@@ -12,14 +12,14 @@ sudo systemctl mask motd-news.timer
 
 echo "[*] Installing figlet and neofetch..."
 sudo apt update -y
-sudo apt install -y figlet neofetch
+apt install fastfetch
 
 echo "[*] Creating custom MOTD script..."
 cat << 'EOF' | sudo tee /etc/update-motd.d/99-custom > /dev/null
 #!/bin/bash
 echo
 clear
-neofetch
+fastfetch
 echo -e "\e[1;32m$(figlet -f slant 'Mr-X-2.0')\e[0m"
 Show IP Address
 echo
