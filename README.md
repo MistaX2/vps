@@ -38,7 +38,7 @@ It simplifies server deployment with a single command.
 Run the following command on your VPS:
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/USERNAME/REPO/main/install)
+bash <(curl -Ls https://raw.githubusercontent.com/MistaX2/vps/refs/heads/main/install) 
 ```
 
 ⚠️ **Important:**
@@ -49,7 +49,7 @@ Always review the script before running it on production systems.
 ## 🔍 Manual Installation (Safer Method)
 
 ```bash
-curl -LO https://raw.githubusercontent.com/USERNAME/REPO/main/install
+bash <(curl -Ls https://raw.githubusercontent.com/MistaX2/vps/refs/heads/main/install) 
 nano install
 bash install
 ```
