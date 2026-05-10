@@ -53,5 +53,5 @@ echo "→ Test by logging in or running: run-parts /etc/update-motd.d/"
 
 echo "Install ZSH"
 bash <(curl -Ls https://raw.githubusercontent.com/MistaX2/vps/refs/heads/main/zsh.sh )
-
+zsh
 sudo reboot
