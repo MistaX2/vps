@@ -44,9 +44,14 @@ sudo sed -i '/pam_motd\.so/d' /etc/pam.d/sshd
 echo "session    optional     pam_motd.so motd=/run/motd.dynamic" | sudo tee -a /etc/pam.d/sshd > /dev/null
 echo "session    optional     pam_motd.so noupdate" | sudo tee -a /etc/pam.d/sshd > /dev/null
 
+
 echo "[*] Restarting SSH service..."
 sudo systemctl restart ssh
 
 echo "[✔] Custom MOTD installed successfully!"
 echo "→ Test by logging in or running: run-parts /etc/update-motd.d/"
+
+echo "Install ZSH"
+bash <(curl -Ls https://raw.githubusercontent.com/MistaX2/vps/refs/heads/main/zsh.sh )
+
 sudo reboot
